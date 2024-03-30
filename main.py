@@ -18,7 +18,8 @@ RED = (214, 32, 32)
 BROWN = (128, 97, 61)
 
 # Game Objects
-player = pg.Rect(W // 2, H - 30, 100, 20)  # x, y, width, height
+player = pg.Rect(0, H - 30, 100, 20)  # x, y, width, height
+player.centerx = W // 2  # автоматически определить центр игрока по центру экрана
 apple = pg.Rect(r.randint(40, W - 40), -50, 40, 40)
 
 
@@ -41,4 +42,10 @@ while not game_over:  # бесконечный цикл для работы иг
 	pg.draw.ellipse(screen, RED, apple)  # рисую яблоко
 
 	pg.display.update()  # обновление экрана игры
+
+	apple.y += 5
+	if apple.bottom > H:  # если координата нижнего края яблока больше высоты экрана
+		apple.x = r.randint(40, W - 40)  # поменять яблоку Х
+		apple.y = -50  # поменять яблоку У
+
 
