@@ -56,6 +56,6 @@ while not game_over:  # бесконечный цикл для работы иг
 	elif keys[pg.K_RIGHT]:
 		p_speed = 10
 
-	gl.player_motion(player, p_speed)
+	gl.player_motion(player, p_speed, W)
 
 
