@@ -47,10 +47,7 @@ while not game_over:  # бесконечный цикл для работы иг
 
 	pg.display.update()  # обновление экрана игры
 
-	apple.y += object_speed * 0.7
-	if apple.bottom > H:  # если координата нижнего края яблока больше высоты экрана
-		apple.x = r.randint(40, W - 40)  # поменять яблоку Х
-		apple.y = -50  # поменять яблоку У
+	gl.opponent_motion(apple, object_speed, W, H, player)
 
 	keys = pg.key.get_pressed()  # отслеживаю нажатие кнопок
 	if keys[pg.K_LEFT]:
