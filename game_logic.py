@@ -31,6 +31,8 @@ def opponent_motion(obj, sp, s_width, s_height, pl):
 	if obj.bottom > s_height:  # если координата нижнего края яблока больше высоты экрана
 		obj.x = r.randint(40, s_width - 40)  # поменять яблоку Х
 		obj.y = -50  # поменять яблоку У
+		return 'miss'
 	elif obj.colliderect(pl):
 		obj.x = r.randint(40, s_width - 40)  # поменять яблоку Х
 		obj.y = -50  # поменять яблоку У
+		return 'catch'
