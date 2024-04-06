@@ -1,6 +1,7 @@
 import sys
 import pygame as pg
 import random as r
+import game_logic as gl
 
 pg.init()  # инициализация библиотеки
 
@@ -47,5 +48,14 @@ while not game_over:  # бесконечный цикл для работы иг
 	if apple.bottom > H:  # если координата нижнего края яблока больше высоты экрана
 		apple.x = r.randint(40, W - 40)  # поменять яблоку Х
 		apple.y = -50  # поменять яблоку У
+
+	keys = pg.key.get_pressed()  # отслеживаю нажатие кнопок
+	p_speed = 0
+	if keys[pg.K_LEFT]:
+		p_speed = -10
+	elif keys[pg.K_RIGHT]:
+		p_speed = 10
+
+	gl.player_motion(player, p_speed)
 
 
