@@ -5,6 +5,7 @@ import game_logic as gl
 
 pg.init()  # инициализация библиотеки
 
+auto = True
 
 # Config Variables
 W = 1280
@@ -66,13 +67,19 @@ while not game_over:  # бесконечный цикл для работы иг
 	elif apple_catch == 'catch':
 		score += 10
 
-	keys = pg.key.get_pressed()  # отслеживаю нажатие кнопок
-	if keys[pg.K_LEFT]:
-		player_speed = -speed
-	elif keys[pg.K_RIGHT]:
-		player_speed = speed
+	if not auto:
+		keys = pg.key.get_pressed()  # отслеживаю нажатие кнопок
+		if keys[pg.K_LEFT]:
+			player_speed = -speed
+		elif keys[pg.K_RIGHT]:
+			player_speed = speed
+		else:
+			player_speed = 0
 	else:
-		player_speed = 0
+		if apple.x > player.x:
+			player.x += 5
+		elif apple.x < player.x:
+			player.x -= 5
 
 	gl.player_motion(player, player_speed, W)
 
