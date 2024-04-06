@@ -11,6 +11,9 @@ W = 1280
 H = 720
 FPS = 60
 clock = pg.time.Clock()
+speed = 10
+player_speed = 0
+object_speed = speed
 
 
 # COLORS
@@ -44,18 +47,19 @@ while not game_over:  # бесконечный цикл для работы иг
 
 	pg.display.update()  # обновление экрана игры
 
-	apple.y += 5
+	apple.y += object_speed * 0.7
 	if apple.bottom > H:  # если координата нижнего края яблока больше высоты экрана
 		apple.x = r.randint(40, W - 40)  # поменять яблоку Х
 		apple.y = -50  # поменять яблоку У
 
 	keys = pg.key.get_pressed()  # отслеживаю нажатие кнопок
-	p_speed = 0
 	if keys[pg.K_LEFT]:
-		p_speed = -10
+		player_speed = -speed
 	elif keys[pg.K_RIGHT]:
-		p_speed = 10
+		player_speed = speed
+	else:
+		player_speed = 0
 
-	gl.player_motion(player, p_speed, W)
+	gl.player_motion(player, player_speed, W)
 
 
