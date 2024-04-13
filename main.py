@@ -5,7 +5,7 @@ import game_logic as gl
 
 pg.init()  # инициализация библиотеки
 
-auto = True
+auto = False
 
 # Config Variables
 W = 1280
@@ -28,15 +28,24 @@ GRAY = (237, 237, 237)
 RED = (214, 32, 32)
 BROWN = (128, 97, 61)
 
-# Game Objects
-player = pg.Rect(0, H - 30, 100, 20)  # x, y, width, height
-player.centerx = W // 2  # автоматически определить центр игрока по центру экрана
-apple = pg.Rect(r.randint(40, W - 40), -50, 40, 40)
-
-
 # Screen Config
 screen = pg.display.set_mode((W, H))  # создаем экран игры размером 1280x720
 pg.display.set_caption('Catch an Apple Game')  # название игры в окне игры
+
+
+# Game Objects
+player_img = pg.image.load('assets/bowl.png').convert_alpha()
+player_img = pg.transform.scale(player_img, (120, 40))
+apple_img = pg.image.load('assets/apple.png').convert_alpha()
+bg_image = pg.image.load('assets/bg.jpg').convert()
+heart_img = pg.image.load('assets/heart.png').convert_alpha()
+heart_rect = heart_img.get_rect()
+
+player = player_img.get_rect()
+player.centerx = W // 2  # автоматически определить центр игрока по центру экрана
+player.y = H - 50
+apple = apple_img.get_rect()
+apple.x, apple.y = r.randint(40, W - 40), -50
 
 
 # Game loop
@@ -51,13 +60,19 @@ while not game_over:  # бесконечный цикл для работы иг
 			pg.quit()
 			sys.exit()
 
-	screen.fill(GRAY)  # зальем экран серым цветом
-	pg.draw.rect(screen, BROWN, player)  # рисую игрового персонажа
-	pg.draw.ellipse(screen, RED, apple)  # рисую яблоко
+	screen.blit(bg_image, (0, 0))  # вместо screen.fill
+
+	screen.blit(player_img, player)
+	screen.blit(apple_img, apple)
+
 	score_text = score_font.render(f'Score: {score}', True, (107, 237, 185))
-	miss_text = score_font.render(f'Miss: {miss}', True, (107, 237, 185))
-	screen.blit(score_text, (10, 10))  # расположить score_text в координатах 10;10
-	screen.blit(miss_text, (10, 40))
+	screen.blit(score_text, (10, 70))  # расположить score_text в координатах 10;10
+	lives = 3 - miss
+	for i in range(lives):
+		heart_rect.x = 10 + (i * heart_rect.width)
+		heart_rect.y = 5
+		screen.blit(heart_img, heart_rect)
+
 
 	pg.display.update()  # обновление экрана игры
 
