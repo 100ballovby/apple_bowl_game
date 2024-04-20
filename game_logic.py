@@ -71,3 +71,13 @@ def draw_button(screen, text, x, y, w, h, color):
 	text_rect = text_surf.get_rect(center=btn_rect.center)
 	screen.blit(text_surf, text_rect)
 
+
+def handle_high_score(filename, score, operation):
+	if operation == 'w':
+		with open(filename, 'w') as f:
+			f.write(str(score))
+	elif operation == 'r':
+		with open(filename, 'r') as f:
+			sc = f.read()
+		return sc
+

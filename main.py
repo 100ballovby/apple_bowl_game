@@ -19,7 +19,6 @@ object_speed = speed
 
 # scores
 score, miss = 0, 0
-high_score = 0
 pg.font.init()  # инициализация механизма отображения шрифтов
 score_font = pg.font.SysFont('Arial', 32)
 
@@ -53,9 +52,11 @@ apple.x, apple.y = r.randint(40, W - 40), -50
 game_over = False
 pause = False
 while not game_over:  # бесконечный цикл для работы игры
+	high_score = int(gl.handle_high_score('highscore.txt', score, 'r'))
+
 	if miss >= 3:
 		if score > high_score:
-			high_score = score
+			high_score = gl.handle_high_score('highscore.txt', score, 'w')
 		pause = True
 		score = 0
 		miss = 0
@@ -64,7 +65,7 @@ while not game_over:  # бесконечный цикл для работы иг
 	for event in pg.event.get():  # pg.event.get() - обработчик событий в игре
 		if event.type == pg.QUIT:
 			if score > high_score:
-				high_score = score
+				high_score = gl.handle_high_score('highscore.txt', score, 'w')
 			pg.quit()
 			sys.exit()
 		elif event.type == pg.MOUSEBUTTONDOWN:
