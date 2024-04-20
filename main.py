@@ -53,19 +53,27 @@ game_over = False
 pause = False
 while not game_over:  # бесконечный цикл для работы игры
 	if miss >= 3:
-		game_over = True
+		pause = True
+		score = 0
+		miss = 0
 
 	clock.tick(FPS)
 	for event in pg.event.get():  # pg.event.get() - обработчик событий в игре
 		if event.type == pg.QUIT:
 			pg.quit()
 			sys.exit()
+		elif event.type == pg.MOUSEBUTTONDOWN:
+			if pause and 'Restart' == gl.draw_button(screen, score_font, W * 0.43, H // 2, W * 0.15, H * 0.07, (200, 181, 96)):
+				pause = False
 
 	screen.blit(bg_image, (0, 0))  # вместо screen.fill
 	if pause:
-		pass
+		text_surface = score_font.render('You lost!', True, (255, 255, 0))
+		text_rect = text_surface.get_rect(center=(W // 2, H // 2 - 50))
+		screen.blit(text_surface, text_rect)
+		gl.draw_button(screen, score_font, W * 0.43, H // 2, W * 0.15, H * 0.07, (200, 181, 96))
+		pg.display.update()
 	else:
-
 		screen.blit(player_img, player)
 		screen.blit(apple_img, apple)
 
