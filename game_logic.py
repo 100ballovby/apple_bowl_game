@@ -1,6 +1,24 @@
 import random as r
 
 
+def reset_object_position(obj, screen_rect):
+	"""
+	Функция, которая сбрасывает позицию не игрового объекта
+	:param obj: не игровой объект
+	:param screen_rect: область экрана игры
+	"""
+	obj.x = r.randint(40, screen_rect.right - 40)  # поменять яблоку Х
+	obj.y = -50  # поменять яблоку У
+
+
+def check_screen_collision(obj, screen_rect):
+	return obj.bottom >= screen_rect.bottom
+
+
+def check_player_collision(obj, pl):
+	return obj.colliderect(pl)
+
+
 def player_motion(obj, sp, s_width):
 	"""
 	Function defines player moving
@@ -17,7 +35,7 @@ def player_motion(obj, sp, s_width):
 		obj.right = s_width  # зафиксировать координату правого края объекта на ширине экрана
 
 
-def opponent_motion(obj, sp, s_width, s_height, pl):
+def opponent_motion(obj, sp, pl, screen):
 	"""
 	Function defines opponent moving
 	:param obj: opponent object
@@ -28,13 +46,12 @@ def opponent_motion(obj, sp, s_width, s_height, pl):
 	:return: None
 	"""
 	obj.y += sp * 0.7
-	if obj.bottom > s_height:  # если координата нижнего края яблока больше высоты экрана
-		obj.x = r.randint(40, s_width - 40)  # поменять яблоку Х
-		obj.y = -50  # поменять яблоку У
+	screen_rect = screen.get_rect()
+	if check_screen_collision(obj, screen_rect):
+		reset_object_position(obj, screen_rect)
 		return 'miss'
-	elif obj.colliderect(pl):
-		obj.x = r.randint(40, s_width - 40)  # поменять яблоку Х
-		obj.y = -50  # поменять яблоку У
+	if check_player_collision(obj, pl):
+		reset_object_position(obj, screen_rect)
 		return 'catch'
 
 

@@ -88,7 +88,7 @@ while not game_over:  # бесконечный цикл для работы иг
 
 		pg.display.update()  # обновление экрана игры
 
-		apple_catch = gl.opponent_motion(apple, object_speed, W, H, player)
+		apple_catch = gl.opponent_motion(apple, object_speed, player, screen)
 		if apple_catch == 'miss':
 			miss += 1
 		elif apple_catch == 'catch':
