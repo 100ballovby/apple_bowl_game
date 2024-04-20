@@ -19,6 +19,7 @@ object_speed = speed
 
 # scores
 score, miss = 0, 0
+high_score = 0
 pg.font.init()  # инициализация механизма отображения шрифтов
 score_font = pg.font.SysFont('Arial', 32)
 
@@ -53,6 +54,8 @@ game_over = False
 pause = False
 while not game_over:  # бесконечный цикл для работы игры
 	if miss >= 3:
+		if score > high_score:
+			high_score = score
 		pause = True
 		score = 0
 		miss = 0
@@ -60,6 +63,8 @@ while not game_over:  # бесконечный цикл для работы иг
 	clock.tick(FPS)
 	for event in pg.event.get():  # pg.event.get() - обработчик событий в игре
 		if event.type == pg.QUIT:
+			if score > high_score:
+				high_score = score
 			pg.quit()
 			sys.exit()
 		elif event.type == pg.MOUSEBUTTONDOWN:
@@ -79,6 +84,8 @@ while not game_over:  # бесконечный цикл для работы иг
 
 		score_text = score_font.render(f'Score: {score}', True, (107, 237, 185))
 		screen.blit(score_text, (10, 70))  # расположить score_text в координатах 10;10
+		high_score_text = score_font.render(f'High score: {high_score}', True, (107, 237, 185))
+		screen.blit(high_score_text, (10, 140))
 		lives = 3 - miss
 		for i in range(lives):
 			heart_rect.x = 10 + (i * heart_rect.width)
